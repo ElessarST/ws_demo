@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="chat">
+<head>
+    <title>Hello WebSocket</title>
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="/css/reset.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script src="webjars/jquery/jquery.min.js"></script>
+    <script src="webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="webjars/angularjs/angular.min.js"></script>
+    <script src="/app.js"></script>
+</head>
+<body>
+<div class="wrapper" ng-controller="MainCtrl">
+    <div class="container">
+        <div class="left">
+            <ul class="people">
+                <li class="person" ng-repeat="member in members" ng-class="{'active': $index === active}"
+                    ng-click="setActive($index)" ng-show="member.username !== me">
+                    <span class="name">{{member.username}}</span>
+                    <span class="time">2:09 PM</span>
+                    <span class="preview">{{member.messages[0].text}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="right">
+            <div class="top"><span>To: <span class="name">{{members[active].username}}</span></span></div>
+            <div class="chat" ng-repeat="member in members" ng-if="$index === active">
+                <div class="bubble" ng-repeat="message in member.messages" ng-class="{'me': message.username === me, 'you': message.username!==me}">
+                    {{message.text}}
+                </div>
+
+            </div>
+            <div class="write">
+                <input type="text" my-enter="send()" ng-model="newMessage" />
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
